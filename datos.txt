@@ -1,0 +1,9 @@
+sue@gmail.com (admin)
+
+tmoreno@gmail.com doctor
+msaude@gmail.com doctor
+
+jecheverry@gmail.com paciente
+gnavarro@gmail.com paciente
+
+jperez@gmail.com secretaria
