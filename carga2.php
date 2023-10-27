@@ -121,19 +121,19 @@ if (!empty($_POST['botonRegistrar'])) {
             <div class="col-md-12">
                 <div class="card">
                     <div class="card-body">
-                        <h5>Cargar Solicitud </h5>
-                        <hr>
-                        <?php if(!empty($Mensaje)) {?>
-                        '<div class="alert alert-success" role="alert">
-            <i data-feather="check-circle"></i><?php echo $Mensaje;?></div> <?php }?>
+                         <h5>Cargar Solicitud </h5>
+                         <hr>
+                         <?php if(!empty($Mensaje)) {?>
+                         <div class="alert alert-success" role="alert">
+                         <i data-feather="check-circle"></i><?php echo $Mensaje;?></div> <?php }?>
 
-                        <div class="alert alert-info" role="alert">
-                        <i data-feather="info"></i> 
+                         <div class="alert alert-info" role="alert">
+                         <i data-feather="info"></i> 
 							Los campos con * son obligatorios. 
-						</div>
+						 </div>
 
-                        <form role="form" method="post">
-                        <div class="row">
+                         <form role="form" method="post">
+                         <div class="row">
                             <div class="col-md-6">
                                     <div class="form-group">
                                         <label for="Paciente">Indique el Paciente (*)
@@ -158,6 +158,46 @@ if (!empty($_POST['botonRegistrar'])) {
                                         </select>
                                     </div>
                             </div>
+                            <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="ObraSocial">Seleccione Obra Social (*)</label>
+                            <select class="form-control" id="ObraSocial" name="ObraSocial">
+                                <option value="">Selecciona...</option>
+                                <?php
+                                $selected = '';
+                                for ($i = 0; $i < $CantidadObrasSociales; $i++) {
+                                    if (!empty($_POST['ObraSocial']) && $_POST['ObraSocial'] ==  $ListadoObrasSociales[$i]['ID']) {
+                                        $selected = 'selected';
+                                    } else {
+                                        $selected = '';
+                                    }
+                                ?>
+                                    <option value="<?php echo $ListadoObrasSociales[$i]['ID']; ?>" <?php echo $selected; ?>>
+                                        <?php echo $ListadoObrasSociales[$i]['NOMBRE']; ?>
+                                    </option>
+                                <?php } ?>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="ObraSocial">Seleccione Odontologo (*)</label>
+                            <select class="form-control" id="ObraSocial" name="ObraSocial">
+                                <option value="">Selecciona...</option>
+                                <?php
+                                $selected = '';
+                                for ($i = 0; $i < $CantidadObrasSociales; $i++) {
+                                    if (!empty($_POST['ObraSocial']) && $_POST['ObraSocial'] ==  $ListadoObrasSociales[$i]['ID']) {
+                                        $selected = 'selected';
+                                    } else {
+                                        $selected = '';
+                                    }
+                                ?>
+                                    <option value="<?php echo $ListadoObrasSociales[$i]['ID']; ?>" <?php echo $selected; ?>>
+                                        <?php echo $ListadoObrasSociales[$i]['NOMBRE']; ?>
+                                    </option>
+                                <?php } ?>
+                            </select>
+                        </div>
+                    </div>
                             <div class="col-md-6">
                                     <div class="form-group">
                                         <label for="Prestacion">Seleccione Prestación (*)</label>
@@ -204,7 +244,7 @@ if (!empty($_POST['botonRegistrar'])) {
                             <div class="col-md-12">
                                     <button type = "submit" class="btn  btn-primary" value="registrar" name= "botonRegistrar">Registrar</button> 
                                     <input class="btn btn-secondary" type="reset" value="Limpiar datos">
-                                    <a class="btn btn-light" href="index.php" role="button">Volver a Home</a>
+                                    <a class="btn btn-light" href="listado.php" role="button">Volver al listado</a>
                             </div>
                             
                         </div>

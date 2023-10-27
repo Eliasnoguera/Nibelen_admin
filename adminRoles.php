@@ -13,8 +13,10 @@ $MiConexion = ConexionBD();
 
 require_once 'funciones/calcularPrestacion.php';
 require_once 'funciones/insertar_turno.php';
+require_once 'funciones/selectUsuarios.php';
 
 $ListadoTurnos = Listado_Turnos($MiConexion);
+$ListadoDeUsuarios = listado_completo($MiConexion);
 $CantidadTurnos = count($ListadoTurnos);
 $CantComplejas = 0;
 $SumaComplejas = 0;
@@ -22,7 +24,7 @@ $SumaComplejas = 0;
 $titulos='';
 
  if($_SESSION['Usuario_Id_Nivel'] == 1 || $_SESSION['Usuario_Id_Nivel'] == 4) {
-    $titulos = 'Turnos'; }
+    $titulos = 'Todas las Prestaciones cargadas'; }
    if($_SESSION['Usuario_Id_Nivel'] == 2 ) {
         $titulos = 'Mis Turnos Cargados'; } 
     if($_SESSION['Usuario_Id_Nivel'] == 3 ) {
@@ -82,12 +84,12 @@ $titulos='';
                 <div class="row align-items-center">
                     <div class="col-md-12">
                         <div class="page-header-title">
-                            <h5 class="m-b-10">Turnos</h5>
+                            <h5 class="m-b-10">Prestaciones</h5>
                         </div>
                         <ul class="breadcrumb">
-                            <li class="breadcrumb-item"><a href="index.php">Home</a></li>
+                            <li class="breadcrumb-item"><a href="index.html">Home</a></li>
                             <li class="breadcrumb-item"><a href="#!">Listados</a></li>
-                            <li class="breadcrumb-item"><?php echo $titulos; ?></li>
+                            <li class="breadcrumb-item">Todas las Prestaciones cargadas</li>
                             <!-- ver los titulos solicitados en el pdf-->
                             
                         </ul>
@@ -100,81 +102,58 @@ $titulos='';
         <div class="col-md-12">
                 <div class="card">
                     <div class="card-header">
-                        <h5><?php echo $titulos; ?> (<?php echo $CantidadTurnos;?>)</h5>
+                        <h4>USUARIOS</h4>
                     </div>
                      <!-- ver los titulos solicitados en el pdf y en (xx) poder ver la cantidad de registros visualizados-->
-                     <?php if ($_SESSION['Usuario_Id_Nivel'] == 1) {?>
-        <div class= "text-right mb-3" >
-            <button class="btn btn-primary mr-4" onclick="window.location.href='carga2.php'">Registrar Turno</button>
-        </div>
-        <?php }?>
-                    <div class="card-body table-border-style">
-                        <div class="table-responsive">
-                            <table class="table">
-                                <thead>
-                                    <!-- ver columnas y datos solicitados para cada nivel -->
-                                    <tr>
-                                        <th>#</th>
-                                        <th>Fecha</th>
-                                        <th>Paciente</th>
-                                        <th>Obra social</th>
-                                        <th>Odontologo</th>
-                                        <th>Prestación</th>
-                                        <?php if($_SESSION['Usuario_Id_Nivel'] == 1 || $_SESSION['Usuario_Id_Nivel'] == 2) {?>
-                                        <th>Acciones</th> <?php }?>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                <?php for ($i=0; $i<$CantidadTurnos; $i++) { 
-                                    $leyendaMonto = '';
-                                
-                                 $interes = CalcularInteresPrestacion($ListadoTurnos[$i]['PRECIO'], $ListadoTurnos[$i]['PORCENTAJE']);
-                                  
-                                if($ListadoTurnos[$i]['COMPLEJO'] === 'SI' ){
-                                    $leyendaMonto = 'Monto a abonar: $'.$interes.'';
-                                    $CantComplejas = $CantComplejas +1;
-                                    $SumaComplejas = $SumaComplejas + $interes;
 
-                                }
+                     <?php
+// Comprobar si la variable $ListadoDeUsuarios está definida y no está vacía
 
-                                    ?>
+// Comprobar si la variable $ListadoDeUsuarios está definida y no está vacía
+if (!empty($ListadoDeUsuarios) && is_array($ListadoDeUsuarios)) {
+    echo '<div class="card-body table-border-style">';
+    echo '<div class="table-responsive">';
+    echo '<table class="table">';
+    echo '<thead>';
+    echo '<tr>';
+    echo '<th>Nombre</th>';
+    echo '<th>Apellido</th>';
+    echo '<th>Rol</th>';
+    echo '<th>Acciones</th>'; // Agregamos una columna para las acciones
+    echo '</tr>';
+    echo '</thead>';
+    echo '<tbody>';
+
+    // Iterar a través de los datos y generar las filas de la tabla
+    foreach ($ListadoDeUsuarios as $usuario) {
+        echo '<tr>';
+        echo '<td>' . $usuario['NOMBRE'] . '</td>';
+        echo '<td>' . $usuario['APELLIDO'] . '</td>';
+        echo '<td>' . $usuario['ROL'] . '</td>';
+        
+        // Agregamos iconos de Bootstrap para actualizar y eliminar
+        echo '<td>';
+        echo '<a href="#" title="Modificar"><i class="fa fa-edit f-18"></i></a>'; // Icono de edición
+        echo '&nbsp;';
+    
+        echo '<a href="#!" title="Cancelar turno"><i class="feather icon-trash-2 ml-3 f-20 text-danger"></i></a>'; // Icono de eliminación
+        echo '</td>';
+        
+        echo '</tr>';
+    }
+
+    echo '</tbody>';
+    echo '</table>';
+    echo '</div>';
+    echo '</div>';
+} else {
+    echo 'No se encontraron usuarios y roles.';
+}
+?>
 
 
-                                    <tr 
-                                    <?php if ($ListadoTurnos[$i]['ESTADO'] == 'No Asistido') {?>
-                                    class="table-warning" 
-                                    <?php }?>
-                                    <?php if ($ListadoTurnos[$i]['ESTADO'] == 'Asistido') {?>
-                                    class="table-success" 
-                                    <?php }?>
-                                    <?php if ($ListadoTurnos[$i]['ESTADO'] == 'Cargado') {?>
-                                    class="table" 
-                                    <?php }?>
-                                    
-                                    title="Este turno figura <?php echo $ListadoTurnos[$i]['ESTADO']?>">
-                                        <td><?php echo $ListadoTurnos[$i]['IDTURNO'];?></td>
-                                        <td><?php echo $ListadoTurnos[$i]['FECHA'];?><br /><?php echo $ListadoTurnos[$i]['HORA'];?></td>
-                                        <td><?php echo $ListadoTurnos[$i]['PACIENTE'];?></td>
-                                        <td><?php echo $ListadoTurnos[$i]['OBRASOCIAL'];?></td>
-                                        <td><?php echo $ListadoTurnos[$i]['MEDICO'];?></td>
-                                        <td><?php echo $ListadoTurnos[$i]['PRESTACION']; 
-                                        if($_SESSION['Usuario_Id_Nivel'] !=2) {?>
-                                        <br /><?php echo $leyendaMonto ?></td>
-                                      <?php } if($_SESSION['Usuario_Id_Nivel'] == 1 || $_SESSION['Usuario_Id_Nivel'] == 2) {?>
-                                        <td>
-                                            <a href="#!" title="Asistencia/Inasistencia Turno"><i class="icon feather icon-clock f-20  text-success"></i></a>
-                                            <a href="#!" title="Cancelar turno"><i class="feather icon-trash-2 ml-3 f-20 text-danger"></i></a>
-                                        </td>
-                                        <?php }?>
-                                    </tr>
 
-                                  
-                                    <?php }?>
-                                </tbody>
-                            </table>
-                        </div>
                     </div>
-                   
                 </div>
         </div>
             <!-- [ Contextual-table ] end -->
@@ -182,7 +161,7 @@ $titulos='';
 
                
             <!-- support-section start -->
-           <!-- <?php  if($_SESSION['Usuario_Id_Nivel'] == 1) {?>
+            <!--
             <div class="col-xl-6 col-md-12">
                 <div class="card flat-card">
                     <div class="row-table">
@@ -192,8 +171,7 @@ $titulos='';
                                 <div class="row align-items-center m-b-0">
                                     <div class="col">
                                         <h6 class="m-b-5">Cantidad de Prestaciones Complejas</h6>
-                                        <h3 class="m-b-0"><?php echo  $CantComplejas ;?></h3>
-                                 
+                                        <h3 class="m-b-0">4</h3>
                                     </div>
                                     <div class="col-auto">
                                         <i class="fas fa-tags text-primary"></i>
@@ -208,7 +186,7 @@ $titulos='';
                                 <div class="row align-items-center m-b-0">
                                     <div class="col">
                                         <h6 class="m-b-5 text-white">Total Recaudación</h6>
-                                        <h3 class="m-b-0 text-white">$ <?php echo $SumaComplejas;?></h3>
+                                        <h3 class="m-b-0 text-white">$ 8000</h3>
                                     </div>
                                     <div class="col-auto">
                                         <i class="fas fa-money-bill-alt text-white"></i>
@@ -219,14 +197,14 @@ $titulos='';
                     </div>
                     </div>   
                 </div>
-            </div>
-<?php }?>
-                </div>-->
+            </div> -->
+
+                </div>
 
 
        
 
-</section>
+</section>>
 
     <!-- Required Js -->
     <script src="assets/js/vendor-all.min.js"></script>

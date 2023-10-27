@@ -2,7 +2,7 @@
 $titulos='';
 
 if($_SESSION['Usuario_Id_Nivel'] == 1 || $_SESSION['Usuario_Id_Nivel'] == 4) {
-   $titulos = 'Todas las Prestaciones cargadas'; }
+   $titulos = 'Turnos'; }
   if($_SESSION['Usuario_Id_Nivel'] == 2 ) {
 	   $titulos = 'Mis Turnos Cargados'; } 
    if($_SESSION['Usuario_Id_Nivel'] == 3 ) {
@@ -21,27 +21,20 @@ if($_SESSION['Usuario_Id_Nivel'] == 1 || $_SESSION['Usuario_Id_Nivel'] == 4) {
 			</div>
 			<div class="navbar-content">
 				<ul class="pc-navbar">
-					<li class="pc-item pc-caption">
-						<label>Navegación</label>
-
-					</li>
-
 				
-					<li class="pc-item pc-caption">
-						<label>Prestaciones</label>
-					</li>
 
-                    <?php if( $_SESSION['Usuario_Id_Nivel'] == 2 ) {?>
+                   <!-- <?php if( $_SESSION['Usuario_Id_Nivel'] == 2 ) {?>
                     <li class="pc-item"><a href="carga.php" class="pc-link ">
                         <span class="pc-micon"><i data-feather="layout"></i></span>
                     
                         <span class="pc-mtext">Cargar nueva</span></a>
                     </li>
-					<?php }?>
+					<?php }?> -->
 	
 					<li class="pc-item pc-caption">
-						<label>Listados</label>
+						<label>Modulos</label>
 					</li>
+                    <?php if( $_SESSION['Usuario_Id_Nivel'] == 1 || $_SESSION['Usuario_Id_Nivel'] == 2 || $_SESSION['Usuario_Id_Nivel'] == 3 ) {?>
 					<li class="pc-item"><a href="listado.php" class="pc-link ">
                         <span class="pc-micon"><i data-feather="list"></i></span>
                         <span class="pc-mtext"><?php echo $titulos;?></span></a>
@@ -50,42 +43,64 @@ if($_SESSION['Usuario_Id_Nivel'] == 1 || $_SESSION['Usuario_Id_Nivel'] == 4) {
                         <span class="pc-mtext">Listado de mis cargas</span></a>
                         -->
                     </li>
+                    <?php }?>
 
-					<li class="pc-item"><a href="carga.php" class="pc-link ">
+                    <?php if( $_SESSION['Usuario_Id_Nivel'] == 1 ) {?>
+					<li class="pc-item"><a href="adminRoles.php" class="pc-link ">
                         <span class="pc-micon"><i data-feather="layout"></i></span>
                     
-                        <span class="pc-mtext">Turnos</span></a>
+                        <span class="pc-mtext">Admin. de usuarios</span></a>
                     </li>
+                    <?php }?>
 
-					<li class="pc-item"><a href="carga.php" class="pc-link ">
+                    <?php if( $_SESSION['Usuario_Id_Nivel'] == 1 ) {?>
+					<li class="pc-item"><a href="" class="pc-link ">
                         <span class="pc-micon"><i data-feather="layout"></i></span>
                     
                         <span class="pc-mtext">Pacientes</span></a>
                     </li>
+                    <?php }?>
 
-					<li class="pc-item"><a href="carga.php" class="pc-link ">
+                    <?php if( $_SESSION['Usuario_Id_Nivel'] == 2 || $_SESSION['Usuario_Id_Nivel'] == 3) {?>
+                    <li class="pc-item"><a href="" class="pc-link ">
+                        <span class="pc-micon"><i data-feather="layout"></i></span>
+                    
+                        <span class="pc-mtext">Odontograma</span></a>
+                    </li>
+                    <?php }?>
+
+
+                    <?php if( $_SESSION['Usuario_Id_Nivel'] == 1 ) {?>
+					<li class="pc-item"><a href="" class="pc-link ">
                         <span class="pc-micon"><i data-feather="layout"></i></span>
                     
                         <span class="pc-mtext">Inventario</span></a>
                     </li>
+                    <?php }?>
 
-					<li class="pc-item"><a href="carga.php" class="pc-link ">
+                    <?php if( $_SESSION['Usuario_Id_Nivel'] == 1 ) {?>
+					<li class="pc-item"><a href="" class="pc-link ">
                         <span class="pc-micon"><i data-feather="layout"></i></span>
                     
                         <span class="pc-mtext">Proveedores</span></a>
                     </li>
+                    <?php }?>
 
-					<li class="pc-item"><a href="carga.php" class="pc-link ">
+                    <?php if( $_SESSION['Usuario_Id_Nivel'] == 1 ) {?>
+					<li class="pc-item"><a href="" class="pc-link ">
                         <span class="pc-micon"><i data-feather="layout"></i></span>
                     
                         <span class="pc-mtext">Obras sociales</span></a>
                     </li>
+                    <?php }?>
 
-					<li class="pc-item"><a href="carga.php" class="pc-link ">
+                    <?php if( $_SESSION['Usuario_Id_Nivel'] == 1 || $_SESSION['Usuario_Id_Nivel'] == 2 ) {?>
+					<li class="pc-item"><a href="" class="pc-link ">
                         <span class="pc-micon"><i data-feather="layout"></i></span>
                     
                         <span class="pc-mtext">Reportes</span></a>
                     </li>
+                    <?php }?>
    
 				</ul>
 			</div>
